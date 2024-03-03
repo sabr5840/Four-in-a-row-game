@@ -13,7 +13,6 @@ function start() {
 
 function selectCell(row, col) {
     if (readFromCell(row, col) === 0 && !gameIsOver) {
-        // Find the lowest available row for the selected column
         row = findLowestEmptyRow(col);
 
         writeToCell(row, col, currentPlayer);
@@ -22,6 +21,11 @@ function selectCell(row, col) {
             console.log(`Player ${currentPlayer} wins!`);
             updateScores();
             gameIsOver = true;
+            displayResult(`Player ${currentPlayer} wins!`);
+        } else if (checkForTie()) {
+            console.log("It's a tie!");
+            gameIsOver = true;
+            displayResult("It's a tie!");
         } else {
             nextTurn();
         }
@@ -30,6 +34,7 @@ function selectCell(row, col) {
         return false;
     }
 }
+
 
 function findLowestEmptyRow(col) {
     for (let row = model.length - 1; row >= 0; row--) {
@@ -87,15 +92,23 @@ function displayBoard() {
                     cell.textContent = " ";
                     break;
                 case 1:
-                    cell.textContent = "X";
+                    cell.textContent = "🩵";
                     break;
                 case 2:
-                    cell.textContent = "O";
+                    cell.textContent = "🤍";
                     break;
+            }
+
+            // Check if the current cell is part of a winning combination
+            if (checkForWinner(currentPlayer, row, col)) {
+                cell.classList.add("winner-cell");
+            } else {
+                cell.classList.remove("winner-cell");
             }
         }
     }
 }
+
 
 const model = [
     [0, 0, 0, 0, 0, 0, 0],
@@ -119,12 +132,32 @@ let currentPlayer = 1;
 function nextTurn() {
     if (currentPlayer === 1) {
         currentPlayer = 2;
-        // Commented out the computer turn for simplicity, you can add it back if needed
-        // computerTurn();
+        setTimeout(computerTurn, 500); // Delay the computer's move for a better user experience
     } else if (currentPlayer === 2) {
         currentPlayer = 1;
     }
 }
+
+
+function computerTurn() {
+    const availableCols = [];
+
+    for (let col = 0; col < 7; col++) {
+        if (readFromCell(0, col) === 0) {
+            availableCols.push(col);
+        }
+    }
+
+    if (availableCols.length === 0) {
+        console.log("Game over");
+    } else {
+        const randomIndex = Math.floor(Math.random() * availableCols.length);
+        const randomCol = availableCols[randomIndex];
+        selectCell(0, randomCol);
+    }
+}
+
+
 
 function checkForWinner(player, row, col) {
     // Check rows, columns, and diagonals for a win
@@ -166,6 +199,18 @@ function checkColumn(player, col) {
     }
     return false;
 }
+
+function checkForTie() {
+    for (let row = 0; row < 6; row++) {
+        for (let col = 0; col < 7; col++) {
+            if (readFromCell(row, col) === 0) {
+                return false; // There are still empty cells, not a tie
+            }
+        }
+    }
+    return true; // All cells are filled, it's a tie
+}
+
 
 function checkDiagonal(player, row, col) {
     // Check diagonals starting from the bottom-left and bottom-right corners
@@ -212,4 +257,14 @@ function checkDiagonalFromBottomRight(player, row, col) {
         }
     }
     return false;
+}
+
+function displayResult(message) {
+    const resultMessage = document.createElement("p");
+    resultMessage.textContent = message;
+
+    // Add the message to your HTML where you want to display it
+    const resultContainer = document.getElementById("result-container");
+    resultContainer.innerHTML = ""; // Clear previous messages
+    resultContainer.appendChild(resultMessage);
 }

@@ -1,4 +1,4 @@
-# Connect Four Game - README
+# Connect Four Game 
 
 This repository contains a computerized version of the classic game "Connect Four." The game has been implemented based on the following procedure:
 

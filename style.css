@@ -1,6 +1,6 @@
 
 body{
-    background-color: whitesmoke;
+    background-color: rgb(233, 231, 231);
     color: black;
     font-family: 'Times New Roman', Times, serif;
 }
@@ -52,11 +52,18 @@ h1{
     aspect-ratio: 1 / 1;
     font-size: 300%;
 
-    background-color: #888;
-    border: 4px, outset darkgray;
+    background-color: #ffffff;
+    border: 4px, outset rgb(255, 255, 255);
 
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
 }
+
+.winner-cell {
+    background-color: rgb(188, 184, 184); 
+}
+
+
+
