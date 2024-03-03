@@ -4,7 +4,7 @@ Welcome to the Four in a Row Game! This is a simple web-based game where you can
 
 ## Demo
 
-Check out the live demo on GitHub Pages: Four in a Row Game
+Check out the live demo on GitHub Pages: https://sabr5840.github.io/Four-in-a-row-game/
 
 ## Overview of the Code
 
