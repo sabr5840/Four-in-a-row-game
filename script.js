@@ -260,11 +260,23 @@ function checkDiagonalFromBottomRight(player, row, col) {
 }
 
 function displayResult(message) {
-    const resultMessage = document.createElement("p");
-    resultMessage.textContent = message;
+    const modal = document.getElementById("myModal");
+    const modalMessage = document.getElementById("modalMessage");
 
-    // Add the message to your HTML where you want to display it
-    const resultContainer = document.getElementById("result-container");
-    resultContainer.innerHTML = ""; // Clear previous messages
-    resultContainer.appendChild(resultMessage);
+    modalMessage.textContent = message;
+    modal.style.display = "block";
+
+    // Close the modal when the close button is clicked
+    const closeModalButton = document.getElementById("closeModal");
+    closeModalButton.onclick = function() {
+        modal.style.display = "none";
+    };
 }
+
+window.onclick = function(event) {
+    const modal = document.getElementById("myModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+};
+
